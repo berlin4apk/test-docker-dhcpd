@@ -45,11 +45,12 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-buildx-${{ github.sha }}
             ${{ runner.os }}-buildx-
       # START workaround for --cache-from fails if cache does not already exist
       - name: Docker cache Fix
         run: |
-          echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache-new,mode=max
+          echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
       # Temp fix1
       #    https://github.com/docker/buildx/issues/206
 #      - name: cache Fix, if cache does not already exist, create Dockerfile.dummy
@@ -122,7 +123,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+          #cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
