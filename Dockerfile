@@ -7,26 +7,23 @@ ARG DEBIAN_FRONTEND=noninteractive
 ### RUN yes | unminimize
 
 # based of https://github.com/blitterated/docker_dev_env/wiki/Setup-man-pages-in-a-minimized-Ubuntu-container 
-RUN cat <<EOF > provision.sh
-#!/bin/bash
-apt update
-apt --yes upgrade
+RUN apt update \
+&& apt --yes upgrade
 
 # comment out dpkg exclusion for manpages
-sed -e '\|/usr/share/man|s|^#*|#|g' -i /etc/dpkg/dpkg.cfg.d/excludes
+&& sed -e '\|/usr/share/man|s|^#*|#|g' -i /etc/dpkg/dpkg.cfg.d/excludes \
 
 # install manpage packages and dependencies
-apt --yes install apt-utils dialog manpages manpages-posix man-db less
+&& apt --yes install apt-utils dialog manpages manpages-posix man-db less \
 
 # remove dpkg-divert entries
-rm -f /usr/bin/man
-dpkg-divert --quiet --remove --rename /usr/bin/man
-rm -f /usr/share/man/man1/sh.1.gz
-dpkg-divert --quiet --remove --rename /usr/share/man/man1/sh.1.gz
- apt-get -q -y autoremove
- apt-get -q -y clean
- rm -rf /var/lib/apt/lists/*
-EOF && /bin/sh provision.sh
+&& rm -f /usr/bin/man \
+&& dpkg-divert --quiet --remove --rename /usr/bin/man \
+&& rm -f /usr/share/man/man1/sh.1.gz \
+&& dpkg-divert --quiet --remove --rename /usr/share/man/man1/sh.1.gz \
+&& apt-get -q -y autoremove \
+&& apt-get -q -y clean \
+&& rm -rf /var/lib/apt/lists/*
 
 RUN apt-get -q -y update \
  && apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" install \
