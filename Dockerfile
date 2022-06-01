@@ -1,10 +1,13 @@
-FROM ubuntu:20.04
+ARG BASE_IMAGE=ubuntu:20.04
+FROM ${BASE_IMAGE}
+
+ARG VERSION SHA256
 
 LABEL org.opencontainers.image.authors="Robin Smidsrød <robin@smidsrod.no>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN yes | unminimize
+RUN command -v unminimize && echo yes | unminimize
 
 RUN apt-get -q -y update \
  && apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" install \
