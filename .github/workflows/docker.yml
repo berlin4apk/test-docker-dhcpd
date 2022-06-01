@@ -93,13 +93,6 @@ jobs:
           echo ${{ steps.buildx.outputs.platforms }}
           echo ${{ steps.buildx.outputs.platforms }} | sed -e 's/^/          - \"/' -e 's/,/\"\n          - \"/g' -e 's/$/\"/'
 
-      - name: hash matrix.platform-args
-        run: |
-          echo ${{ matrix.platform-args }}
-          echo ${{ matrix.platform-args }} | sort > /tmp/matrixplatformargs
-          sha1sum /tmp/matrixplatformargs
-          cat /tmp/matrixplatformargs
-
       - name: Cache Docker layers
         id: buildx-cache
         uses: actions/cache@v2.1.6
@@ -107,11 +100,12 @@ jobs:
           path: /tmp/.buildx-cache
           #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #${{ hashFiles('**/go.sum') }}-
-          key: ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-${{ github.sha }}-${{ github.run_id }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-${{ github.sha }}-${{ github.run_id }}
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-${{ github.sha }}-
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-
             ${{ runner.os }}-buildx-
           #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #  ${{ runner.os }}-buildx-${{ github.sha }}-
@@ -126,6 +120,12 @@ jobs:
         run: echo "START Docker cache Fix" || echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
         #run: |
         #  [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
+      - name: hash matrix.platform-args
+        run: |
+          echo ${{ matrix.platform-args }}
+          echo ${{ matrix.platform-args }} | sort > /tmp/.buildx-cache/matrixplatformargs
+          sha1sum /tmp/.buildx-cache/matrixplatformargs
+          cat /tmp/.buildx-cache/matrixplatformargs
       # Temp fix1
       #    https://github.com/docker/buildx/issues/206
 #      - name: cache Fix, if cache does not already exist, create Dockerfile.dummy
