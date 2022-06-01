@@ -103,11 +103,13 @@ jobs:
       - name: Generate hash of matrix.platform-args
         shell: bash
         run: |
-          hash=$(echo ${{ matrix.platform-args }} | md5sum | cut -c1-20 )
+          set -vx
+          hash=$(echo ${{ matrix.platform-args }} | /bin/md5sum | cut -c1-20 )
           echo "[debug] Generated hash is '${hash}'"
-          echo "::set-output hash=hash::$hash"
-          #${{ steps.generate_matrix_platform-args.outputs.hash }}
+          echo "::set-output name=hash::$hash"
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+          echo "::set-output name=fulldate::$(/bin/date -u "+%Y%m%dT%H%M%S")"
+          #${{ steps.generate_matrix_platform-args.outputs.hash }}
         id: generate_matrix_platform-args
     
       - name: Cache Docker layers
