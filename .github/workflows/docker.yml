@@ -2,7 +2,7 @@ name: Build Docker images
 
 on:
   push:
-    branches: [ master ]
+  #  branches: [ master ]
   workflow_dispatch:
 # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-secrets
 # https://docs.github.com/en/actions/security-guides/automatic-token-authentication
@@ -90,6 +90,8 @@ jobs:
             type=ref,event=branch
             type=ref,event=pr
             type=sha
+            # dynamically set the branch name as a prefix
+            type=sha,prefix={{branch}}-
             
             #type=schedule,pattern=master
             #type=ref,event=branch
