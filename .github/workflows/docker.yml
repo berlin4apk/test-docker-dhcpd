@@ -92,7 +92,28 @@ jobs:
         run: |
           echo ${{ steps.buildx.outputs.platforms }}
           echo ${{ steps.buildx.outputs.platforms }} | sed -e 's/^/          - \"/' -e 's/,/\"\n          - \"/g' -e 's/$/\"/'
-
+  
+      # https://github.com/actions/cache#creating-a-cache-key
+      # http://man7.org/linux/man-pages/man1/date.1.html
+      - name: Get Date
+        id: get-date
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        shell: bash
+      - name: Generate hash matrix.platform-args
+        shell: bash
+        run: |
+          hash=$(echo ${{ matrix.platform-args }} | md5sum )
+          echo "[debug] Generated hash is '${hash}'"
+          echo "::set-output hash=hash::$hash"
+          #${{ steps.generate_matrix_platform-args.outputs.hash }}
+        id: generate_matrix_platform-args
+      - name: hash matrix.platform-args
+        id: hash-matrix.platform-args
+        run: |
+          echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
+        shell: bash
+    
       - name: Cache Docker layers
         id: buildx-cache
         uses: actions/cache@v2.1.6
@@ -100,12 +121,12 @@ jobs:
           path: /tmp/.buildx-cache
           #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #${{ hashFiles('**/go.sum') }}-
-          key: ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
+          key: ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-${{ github.sha }}-
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-${{ inputs.cache-version }}-
-            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/.buildx-cache/matrixplatformargs') }}-
+            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
+            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-
+            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-
+            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-
             ${{ runner.os }}-buildx-
           #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #  ${{ runner.os }}-buildx-${{ github.sha }}-
