@@ -7,6 +7,8 @@ LABEL org.opencontainers.image.authors="Robin Smidsrød <robin@smidsrod.no>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
+RUN [ -x "$(command -v unminimize)" ]; echo "run unminimize" ; export DEBIAN_FRONTEND=noninteractive ; yes | unminimize
+
 RUN if [ -x "$(command -v unminimize)" ]; then \
 	echo "run unminimize" \
 	export DEBIAN_FRONTEND=noninteractive ; yes | unminimize ;\
