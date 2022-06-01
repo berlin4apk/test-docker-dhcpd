@@ -93,19 +93,26 @@ jobs:
           echo ${{ steps.buildx.outputs.platforms }}
           echo ${{ steps.buildx.outputs.platforms }} | sed -e 's/^/          - \"/' -e 's/,/\"\n          - \"/g' -e 's/$/\"/'
 
+      - name: hash matrix.platform-args
+        run: echo ${{ matrix.platform-args }} | sort > /tmp/matrixplatformargs
+
       - name: Cache Docker layers
         uses: actions/cache@v2.1.6
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
+          #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
+          key: ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-${{ github.run_id }}
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
-            ${{ runner.os }}-buildx-${{ github.sha }}-
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-${{ github.run_id }}
+            ${{ runner.os }}-buildx-${{ hashFiles('/tmp/matrixplatformargs') }}-
             ${{ runner.os }}-buildx-
+          #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
+          #  ${{ runner.os }}-buildx-${{ github.sha }}-
+          #  ${{ runner.os }}-buildx-
       # START workaround for --cache-from fails if cache does not already exist
       - name: Docker cache Fix
         run: |
-          [[ -f /tmp/.buildx-cache/index.json ]] || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
+          [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
       # Temp fix1
       #    https://github.com/docker/buildx/issues/206
 #      - name: cache Fix, if cache does not already exist, create Dockerfile.dummy
