@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     strategy:
-     # fail-fast: false
+      fail-fast: false
       matrix:
         platform-args:
           - "linux/amd64"
@@ -25,6 +25,7 @@ jobs:
           - "linux/ppc64le"
           - "linux/s390x"
           #- "linux/riscv64"
+          - linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6
           #- "linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
         release:
           - false
@@ -52,7 +53,9 @@ jobs:
           echo "Flags:     ${{ steps.buildx.outputs.flags }}"
           echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
       - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
+        run: |
+          echo ${{ steps.buildx.outputs.platforms }}
+          echo ${{ steps.buildx.outputs.platforms }} | sed -e 's/^/          - \"/' -e 's/,/\"\n          - \"/g' -e 's/$/\"/'
 
       - name: Cache Docker layers
         uses: actions/cache@v2.1.6
