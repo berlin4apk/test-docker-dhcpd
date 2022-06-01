@@ -103,7 +103,7 @@ jobs:
       - name: Generate hash of matrix.platform-args
         shell: bash
         run: |
-          hash=$(echo ${{ matrix.platform-args }} | md5sum )
+          hash=$(echo ${{ matrix.platform-args }} | md5sum | cut -c1-20 )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output hash=hash::$hash"
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
