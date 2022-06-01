@@ -57,7 +57,7 @@ jobs:
             experimental: true
           - platform-args: linux/riscv64
             #host-os: ubuntu-latest
-            host-os: ubuntu-20.0
+            host-os: ubuntu-20.04
             build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
             #release: true
             experimental: true
