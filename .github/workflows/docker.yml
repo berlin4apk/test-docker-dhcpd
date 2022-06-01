@@ -38,7 +38,8 @@ jobs:
           #- linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6
           #- "linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
         host-os:
-          - ubuntu-18.04
+          #- ubuntu-18.04
+          - ubuntu-20.04
         release:
           - false
         experimental: [true]
@@ -56,7 +57,7 @@ jobs:
             experimental: true
           - platform-args: linux/riscv64
             #host-os: ubuntu-latest
-            host-os: ubuntu-18.04
+            host-os: ubuntu-20.0
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: true
             experimental: true
