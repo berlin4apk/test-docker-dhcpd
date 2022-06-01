@@ -7,7 +7,7 @@ LABEL org.opencontainers.image.authors="Robin Smidsrød <robin@smidsrod.no>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN command -v unminimize && $(/bin/bash -c 'echo yes | unminimize')
+RUN command -v unminimize && sh -c 'yes | DEBIAN_FRONTEND=noninteractive unminimize'
 
 RUN apt-get -q -y update \
  && apt-get -q -y -o "DPkg::Options::=--force-confold" -o "DPkg::Options::=--force-confdef" install \
