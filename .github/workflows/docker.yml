@@ -104,7 +104,7 @@ jobs:
         shell: bash
         run: |
           set -vx
-          hash=$(echo ${{ matrix.platform-args }} | /bin/md5sum | cut -c1-20 )
+          hash=$(echo ${{ matrix.platform-args }} | md5sum | cut -c1-20 )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output name=hash::$hash"
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
