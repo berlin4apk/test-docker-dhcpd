@@ -8,7 +8,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 # based of https://github.com/blitterated/docker_dev_env/wiki/Setup-man-pages-in-a-minimized-Ubuntu-container 
 RUN apt update \
-&& apt --yes upgrade
+&& apt --yes upgrade \
 
 # comment out dpkg exclusion for manpages
 && sed -e '\|/usr/share/man|s|^#*|#|g' -i /etc/dpkg/dpkg.cfg.d/excludes \
