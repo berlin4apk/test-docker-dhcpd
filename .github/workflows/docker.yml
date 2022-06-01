@@ -100,19 +100,15 @@ jobs:
         run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
-      - name: Generate hash matrix.platform-args
+      - name: Generate hash of matrix.platform-args
         shell: bash
         run: |
           hash=$(echo ${{ matrix.platform-args }} | md5sum )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output hash=hash::$hash"
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
-        id: generate_matrix_platform-args
-      - name: hash matrix.platform-args
-        id: hash-matrix.platform-args
-        run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
-        shell: bash
+        id: generate_matrix_platform-args
     
       - name: Cache Docker layers
         id: buildx-cache
