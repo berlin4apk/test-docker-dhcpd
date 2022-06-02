@@ -49,12 +49,7 @@ jobs:
         #"BASE_IMAGE=alpine:edge"
         #"BASE_IMAGE=localhost:5000/my-project/base"
         include:
-            platform-args:
-              - "linux/arm64"
-              - "linux/arm/v7"
-              - "linux/arm/v6"
-              - "linux/arm/v5"
-              - "linux/arm/v4"
+          - platform-args: "linux/arm64,linux/arm/v7,linux/arm/v6,linux/arm/v5,linux/arm/v4"
             host-os: ubuntu-20.04
             #host-os: ubuntu-latest
             build-args: 'BASE_IMAGE=debian:11.2-slim'
