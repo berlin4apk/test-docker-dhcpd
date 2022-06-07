@@ -270,7 +270,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
           tags: |
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=def{{branch}}-
             type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
 
       - uses: docker/metadata-action@v4.0.1
@@ -281,7 +281,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
           tags: |
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=def{{branch}}-
             type=sha,enable=${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }},prefix=${{ matrix.tag-args }}-{{branch}}-
 
       - uses: docker/metadata-action@v4.0.1
@@ -292,7 +292,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
           tags: |
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=def{{branch}}-
             type=sha,enable=${{fromJSON(matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
@@ -304,7 +304,7 @@ jobs:
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
           tags: |
-            type=sha,prefix={{branch}}-
+            type=sha,prefix=def{{branch}}-
             type=sha,enable=${{format('{0}', matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
@@ -323,6 +323,7 @@ jobs:
 
 
       - uses: docker/metadata-action@v4.0.1
+        continue-on-error: true
         id: meta-disabel
         with:
           images: |
