@@ -163,7 +163,7 @@ jobs:
       - name: hash matrix.platform-args
         run: |
           echo ${{ matrix.platform-args }}
-          echo ${{ matrix.platform-args }} | | sed -e 's/[;,]/\n/g' | sort -u > /tmp/.buildx-cache/matrixplatformargs
+          echo ${{ matrix.platform-args }} | sed -e 's/[;,]/\n/g' | sort -u > /tmp/.buildx-cache/matrixplatformargs
           sha1sum /tmp/.buildx-cache/matrixplatformargs
           cat /tmp/.buildx-cache/matrixplatformargs
       # Temp fix1
