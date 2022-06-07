@@ -282,70 +282,72 @@ jobs:
 #          # move dummy docker cache over if index.json not exist
 #          [[ -f /tmp/.buildx-cache/index.json ]] || mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 #      # END workaround for --cache-from fails if cache does not already exist
-      - name: meta docker/metadata-action
-        uses: docker/metadata-action@v4.0.1
-        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
-        # continue-on-error: true
-        ## id: meta
-        id: meta-disabel
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          flavor: |
-            latest=${{ matrix.tag-latest }}
-          tags: |
-            type=sha,prefix=def{{branch}}-
-            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
-
-      - name: meta2 docker/metadata-action
-        uses: docker/metadata-action@v4.0.1
-        continue-on-error: true
-        id: meta2
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          tags: |
-            type=sha,prefix=def{{branch}}-
-            type=sha,enable=${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }},prefix=${{ matrix.tag-args }}-{{branch}}-
-
-      - name: meta3 docker/metadata-action
-        uses: docker/metadata-action@v4.0.1
-        continue-on-error: true
-        id: meta3
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          tags: |
-            type=sha,prefix=def{{branch}}-
-            type=sha,enable=${{fromJSON(matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
-
-      - name: meta4 docker/metadata-action
-        uses: docker/metadata-action@v4.0.1
-        continue-on-error: true
-        id: meta4
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          tags: |
-            type=sha,prefix=def{{branch}}-
-            type=sha,enable=${{format('{0}', matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
-      - name: meta5 docker/metadata-action
-        uses: docker/metadata-action@v4.0.1
-        continue-on-error: true
-        id: meta5
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          tags: |
-            type=sha,prefix={{branch}}-
-            type=sha,enable=${{format('{0}', matrix.tag-args-enable) != 'false'}},prefix=${{ matrix.tag-args }}-{{branch}}-
+#      - name: meta docker/metadata-action
+#        uses: docker/metadata-action@v4.0.1
+#        # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
+#        # continue-on-error: true
+#        ## id: meta
+#        id: meta-disabel
+#        with:
+#          images: |
+#            name=ghcr.io/${{ github.repository }}
+#            name=${{ github.repository }}
+#          flavor: |
+#            latest=${{ matrix.tag-latest }}
+#          tags: |
+#            type=sha,prefix=def{{branch}}-
+#            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
+
+#      - name: meta2 docker/metadata-action
+#        uses: docker/metadata-action@v4.0.1
+#        continue-on-error: true
+#        id: meta2
+#        with:
+#          images: |
+#            name=ghcr.io/${{ github.repository }}
+#            name=${{ github.repository }}
+#          tags: |
+#            type=sha,prefix=def{{branch}}-
+#            type=sha,enable=${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }},prefix=${{ matrix.tag-args }}-{{branch}}-
+
+#      - name: meta3 docker/metadata-action
+#        uses: docker/metadata-action@v4.0.1
+#        continue-on-error: true
+#        id: meta3
+#        with:
+#          images: |
+#            name=ghcr.io/${{ github.repository }}
+#            name=${{ github.repository }}
+#          tags: |
+#            type=sha,prefix=def{{branch}}-
+#            type=sha,enable=${{fromJSON(matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
+
+#      - name: meta4 docker/metadata-action
+#        uses: docker/metadata-action@v4.0.1
+#        continue-on-error: true
+#        id: meta4
+#        with:
+#          images: |
+#            name=ghcr.io/${{ github.repository }}
+#            name=${{ github.repository }}
+#          tags: |
+#            type=sha,prefix=def{{branch}}-
+#            type=sha,enable=${{format('{0}', matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
+
+
+#      - name: meta5 docker/metadata-action
+#        uses: docker/metadata-action@v4.0.1
+#        continue-on-error: true
+#        id: meta5
+#        with:
+#          images: |
+#            name=ghcr.io/${{ github.repository }}
+#            name=${{ github.repository }}
+#          tags: |
+#            type=sha,prefix={{branch}}-
+#            type=sha,enable=${{format('{0}', matrix.tag-args-enable) != 'false'}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
       - name: meta6 docker/metadata-action
