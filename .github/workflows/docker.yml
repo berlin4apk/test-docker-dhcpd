@@ -91,6 +91,64 @@ jobs:
       packages: write
       contents: read
     steps:
+    
+#######################################################
+      -
+        name: Print if matrix.tag-args-disable 'true'
+# Use equality operators to get a boolean result; in this case we are only running the step when the greeting is “Hello”. Note the use of single quotes for the string literal. You can use ==, !=, <, <=, >, >=, &&, ||, and ( ... ). Learn more about operators here
+        if: ${{ matrix.tag-args-disable == 'true' }}
+        run: echo "matrix.tag-args-disable is true"
+
+      -
+        name: Print if matrix.tag-args-disable starts with 'tr'
+        if: ${{ startsWith(matrix.tag-args-disable, 'tr') }}
+        run: echo "matrix.tag-args-disable starts with tr"	
+
+      -
+        name: Print if matrix.tag-args-disable ends with 'y'
+        if: ${{ endsWith(matrix.greeting, 'y') }}
+        run: echo "greeting ends with y"          
+	
+
+      -
+        name: Print if matrix.tag-args-disable contains 'ru'
+        if: ${{ contains(matrix.tag-args-disable, 'ru') }}
+        run: echo "matrix.tag-args-disable contains ru"
+
+      -
+        name: Print formatted matrix.tag-args-disable
+        run: |
+                    echo "${{ format('{0} says {1}', github.actor, matrix.tag-args-disable) }}"
+
+
+      -
+        name: Print if matrix.tag-args-enable 'true'
+# Use equality operators to get a boolean result; in this case we are only running the step when the greeting is “Hello”. Note the use of single quotes for the string literal. You can use ==, !=, <, <=, >, >=, &&, ||, and ( ... ). Learn more about operators here
+        if: ${{ matrix.tag-args-enable == 'true' }}
+        run: echo "matrix.tag-args-enable is true"
+
+      -
+        name: Print if matrix.tag-args-enable starts with 'tr'
+        if: ${{ startsWith(matrix.tag-args-enable, 'tr') }}
+        run: echo "matrix.tag-args-enable starts with tr"	
+
+      -
+        name: Print if matrix.tag-args-enable ends with 'y'
+        if: ${{ endsWith(matrix.greeting, 'y') }}
+        run: echo "greeting ends with y"          
+	
+
+      -
+        name: Print if matrix.tag-args-enable contains 'ru'
+        if: ${{ contains(matrix.tag-args-enable, 'ru') }}
+        run: echo "matrix.tag-args-enable contains ru"
+
+      -
+        name: Print formatted matrix.tag-args-enable
+        run: |
+                    echo "${{ format('{0} says {1}', github.actor, matrix.tag-args-enable) }}"
+#######################################################
+    
       - name: Checkout Repository
         uses: actions/checkout@v3.0.2
 
