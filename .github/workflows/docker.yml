@@ -131,11 +131,11 @@ jobs:
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
           echo "::set-output name=fulldate::$(/bin/date -u "+%Y%m%dT%H%M%S")"
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
-          echo "::set-output name=matrix-tag-args-enable::$(echo "${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }}" )
-          echo "::set-output name=matrix-tag-args-enable2::$(echo "${{fromJSON(matrix.tag-args-enable)}}" )
-          echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', github.event.inputs.foo)}}" )
-          echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', github.event.inputs.foo) != 'false'}}" )
-          echo "::set-output name=matrix-tag-args-enable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_ENABLE) }}" )
+          echo "::set-output name=matrix-tag-args-enable::$(echo "${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }}" )"
+          echo "::set-output name=matrix-tag-args-enable2::$(echo "${{fromJSON(matrix.tag-args-enable)}}" )"
+          echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', github.event.inputs.foo)}}" )"
+          echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', github.event.inputs.foo) != 'false'}}" )"
+          echo "::set-output name=matrix-tag-args-enable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_ENABLE) }}" )"
         id: generate_matrix_platform-args
     
       - name: Cache Docker layers
@@ -193,7 +193,7 @@ jobs:
 #          [[ -f /tmp/.buildx-cache/index.json ]] || mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 #      # END workaround for --cache-from fails if cache does not already exist
 
-      - uses: docker/metadata-action@v3.8.0
+      - uses: docker/metadata-action@v4.0.1
         id: meta
         with:
           images: |
