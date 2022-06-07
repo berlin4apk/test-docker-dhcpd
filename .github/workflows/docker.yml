@@ -124,6 +124,8 @@ jobs:
           MATRIX_TAG_ARGS_ENABLE: ${{matrix.tag-args-enable}}
         run: |
           set -vx
+          # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#echoing-command-outputs
+          echo '::echo::on'
           echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
           hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
           echo "[debug] Generated hash is '${hash}'"
@@ -136,6 +138,7 @@ jobs:
           echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', github.event.inputs.foo)}}" )"
           echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', github.event.inputs.foo) != 'false'}}" )"
           echo "::set-output name=matrix-tag-args-enable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_ENABLE) }}" )"
+          echo '::echo::off'
         id: generate_matrix_platform-args
     
       - name: Cache Docker layers
