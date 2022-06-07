@@ -42,8 +42,8 @@ jobs:
           - ubuntu-20.04
         release:
           - false
-        tag-args: [ "null" ]
-        tag-args-enable: [false]
+        tag-args: null
+        tag-args-enable: false
         experimental: [true]
         build-args:
           - "BASE_IMAGE=ubuntu:20.04"
@@ -55,7 +55,7 @@ jobs:
             host-os: ubuntu-20.04
             #host-os: ubuntu-latest
             tag-args: debian
-            tag-args-enable: [true]
+            tag-args-enable: true
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: false
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -65,7 +65,7 @@ jobs:
             #host-os: ubuntu-latest
             host-os: ubuntu-20.04
             tag-args: debian-unstable
-            tag-args-enable: [true]
+            tag-args-enable: true
             #build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
             build-args: 'BASE_IMAGE=debian:unstable-slim'
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -75,7 +75,7 @@ jobs:
           - platform-args: "linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/386,linux/mips64le,linux/ppc64le,linux/s390x"
             host-os: ubuntu-latest
             tag-args: debian
-            tag-args-enable: [true]
+            tag-args-enable: true
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: true
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -119,7 +119,8 @@ jobs:
         shell: bash
         run: |
           set -vx
-          hash=$(echo "${{ matrix.platform-args }}" | md5sum | cut -c1-15 )
+          echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
+          hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output name=hash::$hash"
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
@@ -208,19 +209,19 @@ jobs:
             # minimal
             type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # default
-            type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
             # handlebars
-            type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
             # semver
-            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=ref,enable=${{ matrix.tag-args-enable }},event=branch,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}},prefix=${{ matrix.tag-args }}-
+            type=ref,enable=${{ matrix.tag-args-enable }},event=branch,prefix=${{ matrix.tag-args }}-
+            type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # dynamically set the branch name as a prefix
-            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-,enable=${{ matrix.tag-args-enable }}
-            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
                       
             #type=schedule,pattern=master
             #type=ref,event=branch
