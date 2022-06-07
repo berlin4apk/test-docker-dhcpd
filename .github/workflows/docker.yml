@@ -172,7 +172,8 @@ jobs:
         id: meta
         with:
           images: |
-            ghcr.io/${{ github.repository }}
+            name=ghcr.io/${{ github.repository }}
+            name=${{ github.repository }}
           tags: |
             # minimal
             type=schedule
