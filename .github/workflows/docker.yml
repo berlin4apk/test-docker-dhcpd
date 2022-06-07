@@ -120,6 +120,8 @@ jobs:
         shell: bash
       - name: Generate hash of matrix.platform-args
         shell: bash
+        env:
+          MATRIX_TAG_ARGS_ENABLE: ${{matrix.tag-args-enable}}
         run: |
           set -vx
           echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
@@ -129,6 +131,11 @@ jobs:
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
           echo "::set-output name=fulldate::$(/bin/date -u "+%Y%m%dT%H%M%S")"
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
+          echo "::set-output name=matrix-tag-args-enable::$(echo "${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }}" )
+          echo "::set-output name=matrix-tag-args-enable2::$(echo "${{fromJSON(matrix.tag-args-enable)}}" )
+          echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', github.event.inputs.foo)}}" )
+          echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', github.event.inputs.foo) != 'false'}}" )
+          echo "::set-output name=matrix-tag-args-enable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_ENABLE) }}" )
         id: generate_matrix_platform-args
     
       - name: Cache Docker layers
@@ -187,32 +194,6 @@ jobs:
 #      # END workaround for --cache-from fails if cache does not already exist
 
       - uses: docker/metadata-action@v3.8.0
-        if: matrix.tag-args-enable == 'true'
-        id: meta
-        with:
-          images: |
-            name=ghcr.io/${{ github.repository }}
-            name=${{ github.repository }}
-          tags: |
-            # minimal
-            type=schedule,prefix=${{ matrix.tag-args }}-
-            # default
-            type=schedule,pattern=nightly,prefix=${{ matrix.tag-args }}-
-            # handlebars
-            type=schedule,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
-            # semver
-            type=semver,pattern={{version}},prefix=${{ matrix.tag-args }}-
-            type=semver,pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
-            type=semver,pattern={{major}},prefix=${{ matrix.tag-args }}-
-            type=ref,event=branch,prefix=${{ matrix.tag-args }}-
-            type=ref,event=pr,prefix=${{ matrix.tag-args }}-
-            type=sha,prefix=${{ matrix.tag-args }}-
-            # dynamically set the branch name as a prefix
-            type=sha,prefix=${{ matrix.tag-args }}-{{branch}}-
-            type=sha,prefix=${{ matrix.tag-args }}-
-
-      - uses: docker/metadata-action@v3.8.0
-        if: matrix.tag-args-enable != 'true'
         id: meta
         with:
           images: |
@@ -235,6 +216,23 @@ jobs:
             # dynamically set the branch name as a prefix
             type=sha,prefix={{branch}}-
             
+            # minimal
+            type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+            # default
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
+            # handlebars
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
+            # semver
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}},prefix=${{ matrix.tag-args }}-
+            type=ref,enable=${{ matrix.tag-args-enable }},event=branch,prefix=${{ matrix.tag-args }}-
+            type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+            # dynamically set the branch name as a prefix
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+                      
             #type=schedule,pattern=master
             #type=ref,event=branch
             #type=semver,pattern={{version}}
@@ -244,7 +242,6 @@ jobs:
             # type=semver,pattern={{version}}
             # use custom value instead of git tag
             # type=semver,pattern={{version}},value=v1.0.0
-
 
       - name: Login to GitHub
         uses: docker/login-action@v2.0.0
