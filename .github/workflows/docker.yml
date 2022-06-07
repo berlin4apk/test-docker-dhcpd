@@ -359,8 +359,17 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
+          #flavor: |
+          #  latest=${{ matrix.tag-latest }}
+          #  ${{ matrix.tag-args }}
           flavor: |
             latest=${{ matrix.tag-latest }}
+            prefix=${{ matrix.tag-args }}
+            suffix=
+          # latest=<auto|true|false>: Handle latest tag (default auto)
+          # prefix=<string>,onlatest=<true|false>: A global prefix for each generated tag and optionally for latest
+          # suffix=<string>,onlatest=<true|false>: A global suffix for each generated tag and optionally for latest
+
           tags: |
             # minimal
             ## type=schedule
@@ -372,12 +381,12 @@ jobs:
             type=semver,priority=900,pattern={{version}}
             type=semver,priority=900,pattern={{major}}.{{minor}}
             type=semver,priority=900,pattern={{major}}
-            ## type=ref,priority=600,event=branch
+            type=ref,priority=600,event=branch
             ## type=ref,priority=600,event=pr
             ## type=sha
             # dynamically set the branch name as a prefix
             ## type=sha,priority=100,prefix=sha-{{branch}}-
-            type=sha,priority=100,prefix={{branch}}-sha-
+            ## type=sha,priority=100,prefix={{branch}}-sha-
             
             # minimal
             type=schedule,enable=${{ matrix.tag-args-enable }},priority=1000,prefix=${{ matrix.tag-args }}
@@ -389,12 +398,13 @@ jobs:
             type=semver,enable=${{ matrix.tag-args-enable }},priority=900,pattern={{version}},prefix=${{ matrix.tag-args }}
             type=semver,enable=${{ matrix.tag-args-enable }},priority=900,pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}
             type=semver,enable=${{ matrix.tag-args-enable }},priority=900,pattern={{major}},prefix=${{ matrix.tag-args }}
-            ## type=ref,enable=${{ matrix.tag-args-enable }},priority=600,event=branch,prefix=${{ matrix.tag-args }}
+            type=ref,enable=${{ matrix.tag-args-enable }},priority=600,event=branch,prefix=${{ matrix.tag-args }}
             ## type=ref,enable=${{ matrix.tag-args-enable }},priority=600,event=pr,prefix=${{ matrix.tag-args }}
             type=sha,enable=${{ matrix.tag-args-enable }},priority=600,prefix=${{ matrix.tag-args }}
             # dynamically set the branch name as a prefix
-            type=sha,enable=${{ matrix.tag-args-enable }},priority=100,prefix=${{ matrix.tag-args }}{{branch}}-sha-
-            type=sha,enable=${{ matrix.tag-args-enable }},priority=100,prefix=${{ matrix.tag-args }}sha-
+            ## type=sha,enable=${{ matrix.tag-args-enable }},priority=100,prefix=${{ matrix.tag-args }}{{branch}}-sha-
+            ## type=sha,enable=${{ matrix.tag-args-enable }},priority=100,prefix=${{ matrix.tag-args }}sha-
+
       - name: Login to GitHub
         if: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
         uses: docker/login-action@v2.0.0
