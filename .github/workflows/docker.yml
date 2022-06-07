@@ -380,7 +380,7 @@ jobs:
             type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
             # semver
             type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-
-            ## type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
             ## type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}},prefix=${{ matrix.tag-args }}-
             ## type=ref,enable=${{ matrix.tag-args-enable }},event=branch,prefix=${{ matrix.tag-args }}-
             ## type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-
