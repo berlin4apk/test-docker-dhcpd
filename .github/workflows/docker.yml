@@ -369,7 +369,14 @@ jobs:
           # latest=<auto|true|false>: Handle latest tag (default auto)
           # prefix=<string>,onlatest=<true|false>: A global prefix for each generated tag and optionally for latest
           # suffix=<string>,onlatest=<true|false>: A global suffix for each generated tag and optionally for latest
-
+          tags: |
+            type=schedule
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
 
       - name: Login to GitHub
         if: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
