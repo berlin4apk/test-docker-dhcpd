@@ -18,7 +18,7 @@ jobs:
     # see https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
     # https://github.com/apache/commons-io/blob/5911ca64d08c110bc7a612dbef2f278d5dd2a9ab/.github/workflows/maven.yml#L23
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         platform-args:
           - "linux/amd64"
@@ -53,13 +53,14 @@ jobs:
             host-os: ubuntu-20.04
             #host-os: ubuntu-latest
             build-args: 'BASE_IMAGE=debian:11.2-slim'
-            #release: true
+            release: false
+            #release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
             experimental: true
           - platform-args: linux/riscv64
             #host-os: ubuntu-latest
             host-os: ubuntu-20.04
             build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
-            #release: true
+            release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
             experimental: true
           #- platform-args: "linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
           # no linux/mips64 support
@@ -221,7 +222,8 @@ jobs:
           platforms: ${{ matrix.platform-args }}
           #"linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
           #linux/amd64,linux/arm/v7,linux/arm64
-          push: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
+          push: ${{ matrix.release && github.event_name != 'pull_request' }} # importent to catch a rogue like PR
+          #push: ${{ github.event_name != 'pull_request' }}  # importent to catch a rogue like PR
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=local,src=/tmp/.buildx-cache
