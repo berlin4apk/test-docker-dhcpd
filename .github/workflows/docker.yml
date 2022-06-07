@@ -285,7 +285,7 @@ jobs:
       - name: meta docker/metadata-action
         uses: docker/metadata-action@v4.0.1
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
-        continue-on-error: true
+        # continue-on-error: true
         id: meta
         with:
           images: |
@@ -349,7 +349,7 @@ jobs:
 
       - name: meta6 docker/metadata-action
         uses: docker/metadata-action@v4.0.1
-        continue-on-error: true
+        # continue-on-error: true
         id: meta6-disabel
         with:
           images: |
@@ -375,7 +375,7 @@ jobs:
             # minimal
             type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # default
-            ## type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
             # handlebars
             ## type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
             # semver
