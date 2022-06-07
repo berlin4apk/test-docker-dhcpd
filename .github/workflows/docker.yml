@@ -377,7 +377,7 @@ jobs:
             # default
             type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
             # handlebars
-            ## type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-
             # semver
             ## type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-
             ## type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-
