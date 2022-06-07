@@ -124,12 +124,14 @@ jobs:
           path: /tmp/.buildx-cache
           #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #${{ hashFiles('**/go.sum') }}-
-          key: ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
+          #key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
+          key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
           restore-keys: |
-            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-${{ github.run_id }}
-            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-${{ github.sha }}-
-            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-${{ inputs.cache-version }}-
-            ${{ runner.os }}-buildx-${{ steps.generate_matrix_platform-args.outputs.hash }}-
+            #${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-
             ${{ runner.os }}-buildx-
           #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #  ${{ runner.os }}-buildx-${{ github.sha }}-
