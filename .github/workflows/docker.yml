@@ -42,6 +42,7 @@ jobs:
           - ubuntu-20.04
         release:
           - false
+        tag-args-enable: [false]
         experimental: [true]
         build-args:
           - "BASE_IMAGE=ubuntu:20.04"
@@ -52,6 +53,8 @@ jobs:
           - platform-args: "linux/arm64,linux/arm/v7,linux/arm/v5"
             host-os: ubuntu-20.04
             #host-os: ubuntu-latest
+            tag-args: debian
+            tag-args-enable: true
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: false
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -59,6 +62,8 @@ jobs:
           - platform-args: linux/riscv64
             #host-os: ubuntu-latest
             host-os: ubuntu-20.04
+            tag-args: debian
+            tag-args-enable: true
             build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
             experimental: true
@@ -66,6 +71,8 @@ jobs:
           # no linux/mips64 support
           - platform-args: "linux/amd64,linux/arm/v7,linux/arm/v5,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le"
             host-os: ubuntu-latest
+            tag-args: debian
+            tag-args-enable: true
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: true
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -195,6 +202,23 @@ jobs:
             # dynamically set the branch name as a prefix
             type=sha,prefix={{branch}}-
             
+            # minimal
+            type=schedule,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            # default
+            type=schedule,pattern=nightly,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            # handlebars
+            type=schedule,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            # semver
+            type=semver,pattern={{version}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,pattern={{major}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=ref,event=branch,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=ref,event=pr,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            # dynamically set the branch name as a prefix
+            type=sha,prefix=${{ matrix.tag-args }}-{{branch}}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+                      
             #type=schedule,pattern=master
             #type=ref,event=branch
             #type=semver,pattern={{version}}
