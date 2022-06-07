@@ -105,9 +105,9 @@ jobs:
         run: echo "matrix.tag-args-disable starts with tr"	
 
       -
-        name: Print if matrix.tag-args-disable ends with 'y'
-        if: ${{ endsWith(matrix.greeting, 'y') }}
-        run: echo "greeting ends with y"          
+        name: Print if matrix.tag-args-disable ends with 'e'
+        if: ${{ endsWith(matrix.tag-args-disable, 'e') }}
+        run: echo "matrix.tag-args-disable ends with e"          
 	
 
       -
@@ -133,10 +133,9 @@ jobs:
         run: echo "matrix.tag-args-enable starts with tr"	
 
       -
-        name: Print if matrix.tag-args-enable ends with 'y'
-        if: ${{ endsWith(matrix.greeting, 'y') }}
-        run: echo "greeting ends with y"          
-	
+        name: Print if matrix.tag-args-enable ends with 'e'
+        if: ${{ endsWith(matrix.tag-args-enable, 'e') }}
+        run: echo "matrix.tag-args-enable ends with e"    
 
       -
         name: Print if matrix.tag-args-enable contains 'ru'
