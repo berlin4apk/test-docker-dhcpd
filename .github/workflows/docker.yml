@@ -44,8 +44,8 @@ jobs:
           - false
         tag-args: 
           - "null"
-        tag-args-enable: [false]
-        tag-args-disable: [true]
+        tag-args-enable: [FALSE]
+        tag-args-disable: [TRUE]
         # tag-args-enable: 
         #  - false
         experimental: [true]
