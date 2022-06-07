@@ -42,6 +42,7 @@ jobs:
           - ubuntu-20.04
         release:
           - false
+        tag-args: [ "null" ]
         tag-args-enable: [false]
         experimental: [true]
         build-args:
@@ -205,21 +206,21 @@ jobs:
             type=sha,prefix={{branch}}-
             
             # minimal
-            type=schedule,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # default
-            type=schedule,pattern=nightly,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
             # handlebars
-            type=schedule,pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=schedule,enable=${{ matrix.tag-args-enable }},pattern={{date 'YYYYMMDD'}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
             # semver
-            type=semver,pattern={{version}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=semver,pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=semver,pattern={{major}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=ref,event=branch,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=ref,event=pr,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
-            type=sha,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{version}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}}.{{minor}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=semver,enable=${{ matrix.tag-args-enable }},pattern={{major}},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=ref,enable=${{ matrix.tag-args-enable }},event=branch,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
             # dynamically set the branch name as a prefix
-            type=sha,prefix=${{ matrix.tag-args }}-{{branch}}-,enable=${{ matrix.tag-args-enable }}
-            type=sha,prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-,enable=${{ matrix.tag-args-enable }}
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-,enable=${{ matrix.tag-args-enable }}
                       
             #type=schedule,pattern=master
             #type=ref,event=branch
