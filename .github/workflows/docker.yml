@@ -286,7 +286,7 @@ jobs:
 
       - uses: docker/metadata-action@v4.0.1
         continue-on-error: true
-        id: meta2
+        id: meta3
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
@@ -298,7 +298,7 @@ jobs:
 
       - uses: docker/metadata-action@v4.0.1
         continue-on-error: true
-        id: meta3
+        id: meta4
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
@@ -311,7 +311,7 @@ jobs:
 
       - uses: docker/metadata-action@v4.0.1
         continue-on-error: true
-        id: meta4
+        id: meta5
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
