@@ -368,10 +368,10 @@ jobs:
             type=ref,event=pr
             type=sha
             # dynamically set the branch name as a prefix
-            type=sha,prefix={{branch}}-
+            ## type=sha,prefix={{branch}}-
             
             # minimal
-            type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+            ## type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # default
             ## type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
             # handlebars
@@ -384,9 +384,9 @@ jobs:
             ## type=ref,enable=${{ matrix.tag-args-enable }},event=pr,prefix=${{ matrix.tag-args }}-
             ## type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # dynamically set the branch name as a prefix
-            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
+            ## type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
             ##type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
-                      
+
             #type=schedule,pattern=master
             #type=ref,event=branch
             #type=semver,pattern={{version}}
