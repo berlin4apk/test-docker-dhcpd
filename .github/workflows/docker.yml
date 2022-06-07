@@ -45,6 +45,7 @@ jobs:
         tag-args: 
           - "null"
         tag-args-enable: [false]
+        tag-args-disable: [true]
         # tag-args-enable: 
         #  - false
         experimental: [true]
@@ -59,6 +60,7 @@ jobs:
             #host-os: ubuntu-latest
             tag-args: debian
             tag-args-enable: true
+            tag-args-disable: false
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: false
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -69,6 +71,7 @@ jobs:
             host-os: ubuntu-20.04
             tag-args: debian-unstable
             tag-args-enable: true
+            tag-args-disable: false
             #build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
             build-args: 'BASE_IMAGE=debian:unstable-slim'
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -79,6 +82,7 @@ jobs:
             host-os: ubuntu-latest
             tag-args: debian
             tag-args-enable: true
+            tag-args-disable: false
             build-args: 'BASE_IMAGE=debian:11.2-slim'
             #release: true
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
@@ -122,6 +126,7 @@ jobs:
         shell: bash
         env:
           MATRIX_TAG_ARGS_ENABLE: ${{matrix.tag-args-enable}}
+          MATRIX_TAG_ARGS_DISABLE: ${{matrix.tag-args-disable}}
         run: |
           set -vx
           # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#echoing-command-outputs
@@ -135,9 +140,14 @@ jobs:
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
           echo "::set-output name=matrix-tag-args-enable::$(echo "${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }}" )"
           echo "::set-output name=matrix-tag-args-enable2::$(echo "${{fromJSON(matrix.tag-args-enable)}}" )"
-          echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', github.event.inputs.foo)}}" )"
-          echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', github.event.inputs.foo) != 'false'}}" )"
+          echo "::set-output name=matrix-tag-args-enable3::$(echo "${{format('{0}', matrix.tag-args-enable)}}" )"
+          echo "::set-output name=matrix-tag-args-enable4::$(echo "${{format('{0}', matrix.tag-args-enable) != 'false'}}" )"
           echo "::set-output name=matrix-tag-args-enable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_ENABLE) }}" )"
+          echo "::set-output name=matrix-tag-args-disable::$(echo "${{ matrix.tag-args-disable && matrix.tag-args-disable != 'false' }}" )"
+          echo "::set-output name=matrix-tag-args-disable2::$(echo "${{fromJSON(matrix.tag-args-disable)}}" )"
+          echo "::set-output name=matrix-tag-args-disable3::$(echo "${{format('{0}', matrix.tag-args-disable)}}" )"
+          echo "::set-output name=matrix-tag-args-disable4::$(echo "${{format('{0}', matrix.tag-args-disable) != 'false'}}" )"
+          echo "::set-output name=matrix-tag-args-disable5::$(echo "${{ fromJSON(env.MATRIX_TAG_ARGS_DISABLE) }}" )"
           echo '::echo::off'
         id: generate_matrix_platform-args
     
