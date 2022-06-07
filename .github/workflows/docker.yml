@@ -286,7 +286,8 @@ jobs:
         uses: docker/metadata-action@v4.0.1
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
         # continue-on-error: true
-        id: meta
+        ## id: meta
+        id: meta-disabel
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
@@ -350,7 +351,8 @@ jobs:
       - name: meta6 docker/metadata-action
         uses: docker/metadata-action@v4.0.1
         # continue-on-error: true
-        id: meta6-disabel
+        ## id: meta6-disabel
+        id: meta
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
