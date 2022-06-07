@@ -18,7 +18,7 @@ jobs:
     # see https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
     # https://github.com/apache/commons-io/blob/5911ca64d08c110bc7a612dbef2f278d5dd2a9ab/.github/workflows/maven.yml#L23
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         platform-args:
           - "linux/amd64"
@@ -255,7 +255,7 @@ jobs:
         #run: |
         #  [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
       - name: Docker cache Fix 2/2
-        if: steps.buildx-cache.outputs.cache-hit == 'true'
+        if: ${{ steps.buildx-cache.outputs.cache-hit }}
         run: mv /tmp/.buildx-cache /tmp/.buildx-cache-old
         
       - name: hash matrix.platform-args
