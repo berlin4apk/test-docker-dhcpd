@@ -42,8 +42,8 @@ jobs:
           - ubuntu-20.04
         release:
           - false
-        tag-args: null
-        tag-args-enable: false
+        tag-args: "null"
+        tag-args-enable: "false"
         experimental: [true]
         build-args:
           - "BASE_IMAGE=ubuntu:20.04"
