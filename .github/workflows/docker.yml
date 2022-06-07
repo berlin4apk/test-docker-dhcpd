@@ -59,17 +59,19 @@ jobs:
             #release: false
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
             experimental: true
-          - platform-args: linux/riscv64
+          #- platform-args: linux/riscv64
+          - platform-args: "linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/386,linux/mips64le,linux/ppc64le,linux/riscv64,linux/s390x"
             #host-os: ubuntu-latest
             host-os: ubuntu-20.04
-            tag-args: debian
+            tag-args: debian-unstable
             tag-args-enable: true
-            build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
+            #build-args: 'BASE_IMAGE=debian:unstable-20220527-slim'
+            build-args: 'BASE_IMAGE=debian:unstable-slim'
             release: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
             experimental: true
           #- platform-args: "linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
           # no linux/mips64 support
-          - platform-args: "linux/amd64,linux/arm/v7,linux/arm/v5,linux/arm64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le"
+          - platform-args: "linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64,linux/386,linux/mips64le,linux/ppc64le,linux/s390x"
             host-os: ubuntu-latest
             tag-args: debian
             tag-args-enable: true
