@@ -359,6 +359,8 @@ jobs:
           images: |
             name=ghcr.io/${{ github.repository }}
             name=${{ github.repository }}
+          flavor: |
+            latest=${{ matrix.tag-latest }}
           tags: |
             # minimal
             type=schedule
