@@ -373,7 +373,7 @@ jobs:
             type=sha,prefix={{branch}}-
             
             # minimal
-            ## type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+            type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # default
             ## type=schedule,enable=${{ matrix.tag-args-enable }},pattern=nightly,prefix=${{ matrix.tag-args }}-
             # handlebars
