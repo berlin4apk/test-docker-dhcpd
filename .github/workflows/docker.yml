@@ -387,7 +387,7 @@ jobs:
             type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
             # dynamically set the branch name as a prefix
             type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
-            ##type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
+            type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
 
             #type=schedule,pattern=master
             #type=ref,event=branch
