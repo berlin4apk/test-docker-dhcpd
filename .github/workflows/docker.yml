@@ -378,7 +378,7 @@ jobs:
             type=semver,pattern={{major}}
             type=ref,event=branch
             type=ref,event=pr
-            type=sha
+            type=sha,prefix=${{ matrix.tag-args }}sha-,suffix=,format=short
 
       - name: Login to GitHub
         if: ${{ github.event_name != 'pull_request' }} # importent to catch a rogue like PR
