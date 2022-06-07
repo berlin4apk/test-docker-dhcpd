@@ -282,8 +282,8 @@ jobs:
 #          # move dummy docker cache over if index.json not exist
 #          [[ -f /tmp/.buildx-cache/index.json ]] || mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 #      # END workaround for --cache-from fails if cache does not already exist
-
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepscontinue-on-error
         continue-on-error: true
         id: meta
@@ -297,7 +297,8 @@ jobs:
             type=sha,prefix=def{{branch}}-
             type=sha,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-{{branch}}-
 
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta2 docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         continue-on-error: true
         id: meta2
         with:
@@ -308,7 +309,8 @@ jobs:
             type=sha,prefix=def{{branch}}-
             type=sha,enable=${{ matrix.tag-args-enable && matrix.tag-args-enable != 'false' }},prefix=${{ matrix.tag-args }}-{{branch}}-
 
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta3 docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         continue-on-error: true
         id: meta3
         with:
@@ -319,8 +321,8 @@ jobs:
             type=sha,prefix=def{{branch}}-
             type=sha,enable=${{fromJSON(matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
-
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta4 docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         continue-on-error: true
         id: meta4
         with:
@@ -332,8 +334,8 @@ jobs:
             type=sha,enable=${{format('{0}', matrix.tag-args-enable)}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
-
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta5 docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         continue-on-error: true
         id: meta5
         with:
@@ -345,10 +347,10 @@ jobs:
             type=sha,enable=${{format('{0}', matrix.tag-args-enable) != 'false'}},prefix=${{ matrix.tag-args }}-{{branch}}-
 
 
-
-      - uses: docker/metadata-action@v4.0.1
+      - name: meta6 docker/metadata-action
+        uses: docker/metadata-action@v4.0.1
         continue-on-error: true
-        id: meta-disabel
+        id: meta6-disabel
         with:
           images: |
             name=ghcr.io/${{ github.repository }}
@@ -368,7 +370,7 @@ jobs:
             type=ref,event=pr
             type=sha
             # dynamically set the branch name as a prefix
-            ## type=sha,prefix={{branch}}-
+            type=sha,prefix={{branch}}-
             
             # minimal
             ## type=schedule,enable=${{ matrix.tag-args-enable }},prefix=${{ matrix.tag-args }}-
