@@ -251,12 +251,9 @@ jobs:
       # https://github.com/shivammathur/cache-extensions/issues/22
       # see https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/10365/files#diff-bc668a2c9f2299cef15b222055b4b4d5311646caec2e7610e540cee18ae9b948
         if: steps.buildx-cache.outputs.cache-hit != 'true'
-        run: echo "START Docker cache Fix" || echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache-old,mode=max
+        run: echo "START Docker cache Fix" || echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
         #run: |
         #  [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
-      - name: Docker cache Fix 2/2
-        if: ${{ steps.buildx-cache.outputs.cache-hit }}
-        run: mv /tmp/.buildx-cache /tmp/.buildx-cache-old
         
       - name: hash matrix.platform-args
         run: |
@@ -424,11 +421,15 @@ jobs:
           #push: ${{ github.event_name != 'pull_request' }}  # importent to catch a rogue like PR
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache-old
+          cache-from: type=local,src=/tmp/.buildx-cache
           #cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
-          #cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+          #cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
           build-args: ${{ matrix.build-args }}
+
+      - name: Docker cache Fix 2/2
+        #if: ${{ steps.buildx-cache.outputs.cache-hit }}
+        run: mv /tmp/.buildx-cache-new /tmp/.buildx-cache
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
