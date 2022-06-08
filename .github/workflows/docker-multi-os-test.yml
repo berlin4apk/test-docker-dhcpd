@@ -198,6 +198,7 @@ jobs:
           Uvar=https://raw.githubusercontent.com/MaxPeal/docker-scripts/master/install-docker-buildx-all-os.sh
           curl -o ${Fvar} ${Uvar} || wget -O ${Fvar} ${Uvar}
           bash install-docker-buildx-all-os.sh
+        shell: bash
 
       - name: Cache Homebrew
         id: brew-cache
