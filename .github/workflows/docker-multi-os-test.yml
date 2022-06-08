@@ -180,10 +180,27 @@ jobs:
 
 #######################################################
 
+      - name: echo runner.os AND docker version
+        continue-on-error: true
+        run: |
+          echo "runner.os:      ${{ runner.os }}"
+          set -x
+          docker version
+          docker run --rm hello-world
+        shell: bash
+
+      - name: on macOS Install Docker via "brew install --cask docker"
+        run: |
+          #echo "runner.os:      ${{ runner.os }}"
+          set -x
+          brew --help
+          brew install --cask docker
+        shell: bash
+        
       - name: on macOS Install Docker
         #if: matrix.release && matrix.os == 'ubuntu-latest'
         if: runner.os == 'macOS'
-        uses: docker-practice/actions-setup-docker@1.0.9
+        uses: docker-practice/actions-setup-docker@1.0.10
         
       - name: echo runner.os AND docker version
         run: |
