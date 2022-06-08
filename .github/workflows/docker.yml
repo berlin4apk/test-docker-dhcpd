@@ -211,20 +211,20 @@ jobs:
           echo "::set-output name=short_sha::$short_sha"
           #
           echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
-          ### hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
-          hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | sha1sum | cut -c1-8 )
+          ### hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | md5sum | cut -c1-15 )
+          hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | sha1sum | cut -c1-8 )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output name=hash::$hash"
           #
           echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
-          ### hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
-          pavar=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | sed -e 's/^.*linux\/L/g' -e 's/^.*windows\//W/g' -e 's/^.*darwin\//D/g' | tr -d '\n' | sed -e 's/[^0-9,a-z,A-Z,.]*//g' )
+          ### hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | md5sum | cut -c1-15 )
+          pavar=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | sed -e 's/^.*linux\//L/g' -e 's/^.*windows\//W/g' -e 's/^.*darwin\//D/g' | tr -d '\n' | sed -e 's/[^0-9,a-z,A-Z,.]*//g' )
           echo "[debug] Generated pavar is '${pavar}'"
           echo "::set-output name=pavar::$pavar"
           #
           echo "[debug] matrix.build-args is '${{ matrix.build-args }}'"
-          ### bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
-          bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;,]/\n/g' | sort -u | sha1sum | cut -c1-8 )
+          ### bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | md5sum | cut -c1-15 )
+          bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | sha1sum | cut -c1-8 )
           echo "[debug] Generated bahash is '${bahash}'"
           echo "::set-output name=bahash::$bahash"
           #
