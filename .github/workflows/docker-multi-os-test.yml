@@ -182,7 +182,7 @@ jobs:
       - name: on macOS Install Docker
         #if: matrix.release && matrix.os == 'ubuntu-latest'
         if: runner.os == 'macOS'
-        uses: docker-practice/actions-setup-docker@1.0.8
+        uses: docker-practice/actions-setup-docker@1.0.10
         
       - name: echo runner.os AND docker version
         run: |
@@ -197,7 +197,7 @@ jobs:
 
       - name: Setup QEMU
         #if: runner.os == 'macOS'
-        if: ${{ runner.os == 'macOS' || runner.os == 'lin' || runner.os == 'winOS'  }}
+        if: ${{ runner.os == 'macOS' || runner.os == 'Linux' || runner.os == 'Windows'  }}
         id: qemu
         uses: docker/setup-qemu-action@v2.0.0
         with:
@@ -214,6 +214,7 @@ jobs:
           echo "Flags:     ${{ steps.buildx.outputs.flags }}"
           echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
       - name: Available platforms
+        if: ${{ steps.buildx.outputs.platforms }}
         run: |
           echo "${{ steps.buildx.outputs.platforms }}"
           echo "${{ steps.buildx.outputs.platforms }}" | sed -e 's/^/          - \"/' -e 's/,/\"\n          - \"/g' -e 's/$/\"/'
