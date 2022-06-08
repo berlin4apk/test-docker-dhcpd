@@ -184,7 +184,8 @@ jobs:
         if: runner.os == 'macOS'
         uses: docker-practice/actions-setup-docker@1.0.8
         
-      - run: |
+      - name: echo runner.os AND docker version
+        run: |
       	  echo "runner.os:      ${{ runner.os }}"
           set -x
           docker version
