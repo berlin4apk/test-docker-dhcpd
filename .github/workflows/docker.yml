@@ -216,6 +216,12 @@ jobs:
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output name=hash::$hash"
           #
+          echo "[debug] matrix.platform-args is '${{ matrix.platform-args }}'"
+          ### hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
+          pavar=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | sed -e 's/^.*linux\/L/g' -e 's/^.*windows\//W/g' -e 's/^.*darwin\//D/g' | tr -d '\n' | sed -e 's/[^0-9,a-z,A-Z,.]*//g' )
+          echo "[debug] Generated pavar is '${pavar}'"
+          echo "::set-output name=pavar::$pavar"
+          #
           echo "[debug] matrix.build-args is '${{ matrix.build-args }}'"
           ### bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
           bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;,]/\n/g' | sort -u | sha1sum | cut -c1-8 )
@@ -251,15 +257,16 @@ jobs:
           #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #${{ hashFiles('**/go.sum') }}-
           #key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
-          key: ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
-          #key: ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
+          #key: ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
+          key: ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
+          #key: ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
           restore-keys: |
             #${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
-            ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
-            ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
-            ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-
-            ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-
-            ${{ runner.os }}-buildx-
+            #${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
+            ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
+            ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
+            ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-
+            ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-
           #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #  ${{ runner.os }}-buildx-${{ github.sha }}-
           #  ${{ runner.os }}-buildx-
