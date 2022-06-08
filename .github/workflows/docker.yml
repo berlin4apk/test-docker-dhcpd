@@ -286,8 +286,7 @@ jobs:
         #run: |
         #  [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
         run: |
-          [ -f /tmp/.buildx-cache/index.json ] || $( printf "START Docker cache Fix\n" 
-          [ -f /tmp/.buildx-cache/index.json ] || printf "FROM scratch\n" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max )
+          [ ! -f /tmp/.buildx-cache/index.json ] && printf "FROM scratch\n" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max )
         shell: bash          
       - name: hash matrix.platform-args
         run: |
