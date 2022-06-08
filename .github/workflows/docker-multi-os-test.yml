@@ -209,7 +209,7 @@ jobs:
         run: |
           #echo "runner.os:      ${{ runner.os }}"
           set -x
-          brew install
+          brew install ||:
           brew install --verbose --require-sha --cask docker
         shell: bash
         
