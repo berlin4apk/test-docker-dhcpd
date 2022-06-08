@@ -272,8 +272,8 @@ jobs:
             # ${{ runner.os }}-buildx-
 
       # START workaround for --cache-from fails if cache does not already exist
-      - name: remove Docker cache
-        run: rm -fr /tmp/.buildx-cache /tmp/.buildx-cache-old /tmp/.buildx-cache-new
+      ### - name: remove Docker cache
+      ###   run: rm -fr /tmp/.buildx-cache /tmp/.buildx-cache-old /tmp/.buildx-cache-new
       - name: Docker cache Fix 1/2
       # see
       # https://github.com/actions/cache/issues/485
