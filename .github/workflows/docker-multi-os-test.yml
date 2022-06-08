@@ -188,6 +188,7 @@ jobs:
           set -x
           brew --cache
           docker version
+          docker system info
           docker run --rm hello-world
         shell: bash
 
@@ -228,6 +229,7 @@ jobs:
           set -x
           brew --cache
           docker version
+          docker system info
           docker run --rm hello-world
         shell: bash
 
