@@ -185,6 +185,7 @@ jobs:
         uses: docker-practice/actions-setup-docker@1.0.8
         
       - run: |
+      	  echo "runner.os:      ${{ runner.os }}"
           set -x
           docker version
           docker run --rm hello-world
@@ -194,6 +195,8 @@ jobs:
         uses: actions/checkout@v3.0.2
 
       - name: Setup QEMU
+        #if: runner.os == 'macOS'
+        if: ${{ runner.os == 'macOS' || runner.os == 'lin' || runner.os == 'winOS'  }}
         id: qemu
         uses: docker/setup-qemu-action@v2.0.0
         with:
