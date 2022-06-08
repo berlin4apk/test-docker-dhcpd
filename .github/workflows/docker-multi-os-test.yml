@@ -180,6 +180,17 @@ jobs:
 
 #######################################################
 
+      - name: bash docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+        shell: bash
+
+      - name: docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+
       - name: echo runner.os AND docker version
         continue-on-error: true
         run: |
@@ -199,6 +210,18 @@ jobs:
           curl -o ${Fvar} ${Uvar} || wget -O ${Fvar} ${Uvar}
           bash install-docker-buildx-all-os.sh
         shell: bash
+
+      - name: bash docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+        shell: bash
+
+      - name: docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+
 
       - name: Cache Homebrew
         id: brew-cache
@@ -246,6 +269,19 @@ jobs:
           docker version
           docker run --rm hello-world
         shell: bash
+
+
+      - name: bash docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+        shell: bash
+
+      - name: docker system info
+        continue-on-error: true
+        run: |
+          docker system info
+
     
       - name: Checkout Repository
         uses: actions/checkout@v3.0.2
