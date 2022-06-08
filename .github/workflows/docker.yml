@@ -254,12 +254,12 @@ jobs:
         uses: actions/cache@v3.0.4
         with:
           path: /tmp/.buildx-cache
-          #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
-          #${{ hashFiles('**/go.sum') }}-
-          #key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
-          #key: ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
+          # key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
+          # ${{ hashFiles('**/go.sum') }}-
+          # key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
+          # key: ${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
           key: ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
-          #key: ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
+          # key: ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
           restore-keys: |
             #${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
             #${{ runner.os }}-buildx-PAHASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-RUN${{ github.run_id }}-
@@ -267,9 +267,10 @@ jobs:
             ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-SHA${{ steps.generate_matrix_platform-args.outputs.short_sha }}-
             ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-PA${{ steps.generate_matrix_platform-args.outputs.pavar }}-
             ${{ runner.os }}-buildx-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-
-          #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
-          #  ${{ runner.os }}-buildx-${{ github.sha }}-
-          #  ${{ runner.os }}-buildx-
+            #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
+            #  ${{ runner.os }}-buildx-${{ github.sha }}-
+            #  ${{ runner.os }}-buildx-
+
       # START workaround for --cache-from fails if cache does not already exist
       - name: Docker cache Fix 1/2
       # see
