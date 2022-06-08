@@ -211,11 +211,13 @@ jobs:
           set -x
           brew --help
           brew install --verbose --require-sha --cask docker
+          docker version
+          docker run --rm hello-world
         shell: bash
         
       - name: on macOS Install Docker
         #if: matrix.release && matrix.os == 'ubuntu-latest'
-        if: runner.os == 'macOS'
+        if: runner.os == 'NULLmacOS'
         uses: docker-practice/actions-setup-docker@1.0.10
         
       - name: echo runner.os AND docker version
