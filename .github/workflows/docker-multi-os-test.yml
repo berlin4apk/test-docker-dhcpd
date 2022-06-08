@@ -24,7 +24,8 @@ jobs:
     # see https://docs.github.com/en/actions/learn-github-actions/workflow-syntax-for-github-actions#jobsjob_idstrategyfail-fast
     # https://github.com/apache/commons-io/blob/5911ca64d08c110bc7a612dbef2f278d5dd2a9ab/.github/workflows/maven.yml#L23
     strategy:
-      fail-fast: true
+#      fail-fast: true
+      fail-fast: false
       matrix:
         platform-args:
           - "linux/amd64"
