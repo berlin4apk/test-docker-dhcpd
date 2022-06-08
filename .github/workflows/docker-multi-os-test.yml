@@ -192,7 +192,11 @@ jobs:
         shell: bash
 
       - name: curl and run install-docker-buildx-all-os.sh
-        run: curl -o install-docker-buildx-all-os.sh https://raw.githubusercontent.com/MaxPeal/docker-scripts/master/install-docker-buildx-all-os.sh && bash install-docker-buildx-all-os.sh
+        run: |
+          Fvar=install-docker-buildx-all-os.sh
+          Uvar=https://raw.githubusercontent.com/MaxPeal/docker-scripts/master/install-docker-buildx-all-os.sh
+          curl -o ${Fvar} ${Uvar} || wget -O ${Fvar} ${Uvar}
+          bash install-docker-buildx-all-os.sh
 
       - name: Cache Homebrew
         id: brew-cache
