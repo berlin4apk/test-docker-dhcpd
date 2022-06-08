@@ -186,7 +186,7 @@ jobs:
         
       - name: echo runner.os AND docker version
         run: |
-      	  echo "runner.os:      ${{ runner.os }}"
+          echo "runner.os:      ${{ runner.os }}"
           set -x
           docker version
           docker run --rm hello-world
