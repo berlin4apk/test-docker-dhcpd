@@ -279,11 +279,12 @@ jobs:
       # see https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/10365/files#diff-bc668a2c9f2299cef15b222055b4b4d5311646caec2e7610e540cee18ae9b948
         ##if: steps.buildx-cache.outputs.cache-hit != 'true'
         ##run: echo "START Docker cache Fix" || echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
-        run: |
-          [[ -f /tmp/.buildx-cache/index.json ]] || $(echo "START Docker cache Fix" && echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max)
+        #run: |
+        #  [[ -f /tmp/.buildx-cache/index.json ]] || $( echo 'START Docker cache Fix' ; echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max ; ) ;
         #run: |
         #  [[ -f /tmp/.buildx-cache/index.json ]] && echo "Skip run of Docker cache Fix" || echo "FROM alpine" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
-        
+        run: |
+          [ ! -f /tmp/.buildx-cache/index.json ] && echo "START Docker cache Fix" && echo "FROM scratch" | docker buildx build - --cache-to type=local,dest=/tmp/.buildx-cache,mode=max
       - name: hash matrix.platform-args
         run: |
           echo ${{ matrix.platform-args }}
