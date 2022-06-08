@@ -196,7 +196,7 @@ jobs:
         run: |
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
         shell: bash
-      - name: Generate hash of matrix.platform-args
+      - name: Generate hash of matrix.platform-args AND matrix.build-args
         shell: bash
         env:
           MATRIX_TAG_ARGS_ENABLE: ${{matrix.tag-args-enable}}
@@ -209,6 +209,17 @@ jobs:
           hash=$(echo "${{ matrix.platform-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
           echo "[debug] Generated hash is '${hash}'"
           echo "::set-output name=hash::$hash"
+          #
+          echo "[debug] matrix.build-args is '${{ matrix.build-args }}'"
+          bahash=$(echo "${{ matrix.build-args }}" | sed -e 's/[;,]/\n/g' | sort -u | md5sum | cut -c1-15 )
+          echo "[debug] Generated bahash is '${bahash}'"
+          echo "::set-output name=bahash::$bahash"
+          #
+          echo "[debug] matrix.build-args is '${{ matrix.build-args }}'"
+          bavar=$(echo "${{ matrix.build-args }}" | sed -e 's/[;, ]/\n/g' | sort -u | sed -e 's/^.*=/./g' | tr -d '\n' | sed -e 's/[^0-9,a-z,A-Z,.]*//g' )
+          echo "[debug] Generated bavar is '${bavar}'"
+          echo "::set-output name=bavar::$bavar"
+          #
           echo "::set-output name=date::$(/bin/date -u "+%Y%m%d")"
           echo "::set-output name=fulldate::$(/bin/date -u "+%Y%m%dT%H%M%S")"
           #${{ steps.generate_matrix_platform-args.outputs.hash }}
@@ -233,12 +244,13 @@ jobs:
           #key: ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
           #${{ hashFiles('**/go.sum') }}-
           #key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
-          key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
+          #key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
+          key: ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ github.sha }}-
           restore-keys: |
             #${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-DATE${{ steps.generate_matrix_platform-args.outputs.fulldate }}
-            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
-            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-SHA${{ github.sha }}-
-            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-CV${{ inputs.cache-version }}-
+            #${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ github.sha }}-RUN${{ github.run_id }}-
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-SHA${{ github.sha }}-
+            ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-BA${{ steps.generate_matrix_platform-args.outputs.bavar }}-
             ${{ runner.os }}-buildx-HASH${{ steps.generate_matrix_platform-args.outputs.hash }}-
             ${{ runner.os }}-buildx-
           #  ${{ runner.os }}-buildx-${{ github.sha }}-${{ github.run_id }}
