@@ -191,6 +191,10 @@ jobs:
           docker run --rm hello-world
         shell: bash
 
+      - name curl and run install-docker-buildx-all-os.sh
+        run: |
+          curl -o install-docker-buildx-all-os.sh https://raw.githubusercontent.com/MaxPeal/docker-scripts/master/install-docker-buildx-all-os.sh && bash install-docker-buildx-all-os.sh
+
       - name: Cache Homebrew
         id: brew-cache
         uses: actions/cache@v3.0.4
