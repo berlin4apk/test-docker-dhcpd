@@ -4,6 +4,11 @@ on:
   push:
   #  branches: [ master ]
   workflow_dispatch:
+    inputs:
+      clear-docker-cache:
+        description: 'clear docker cache with rm -fr /tmp/.buildx-cache /tmp/.buildx-cache-old /tmp/.buildx-cache-new'     
+        required: false 
+        type: boolean
 # https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-secrets
 # https://docs.github.com/en/actions/security-guides/automatic-token-authentication
 permissions:
@@ -273,6 +278,7 @@ jobs:
 
       # START workaround for --cache-from fails if cache does not already exist
       - name: remove Docker cache
+        if: ${{ github.event.inputs.clear-docker-cache }}
         run: rm -fr /tmp/.buildx-cache /tmp/.buildx-cache-old /tmp/.buildx-cache-new
       - name: Docker cache Fix 1/2
       # see
