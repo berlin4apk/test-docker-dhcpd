@@ -184,17 +184,33 @@ jobs:
         continue-on-error: true
         run: |
           echo "runner.os:      ${{ runner.os }}"
+          echo "HOMEBREW_CACHE: $HOMEBREW_CACHE"
           set -x
+          brew --cache
           docker version
           docker run --rm hello-world
         shell: bash
 
+      - name: Cache Homebrew
+        id: brew-cache
+        uses: actions/cache@v3.0.4
+        with:
+          path: |
+            $HOME/Library/Caches/Homebrew
+            $XDG_CACHE_HOME/Homebrew
+            $HOME/.cache/Homebrew
+          key: ${{ runner.os }}-brew-RUN${{ github.run_id }}-
+          restore-keys: |
+            ${{ runner.os }}-brew-RUN${{ github.run_id }}-
+            ${{ runner.os }}-brew-
+
       - name: on macOS Install Docker via "brew install --cask docker"
+        if: runner.os == 'macOS'
         run: |
           #echo "runner.os:      ${{ runner.os }}"
           set -x
           brew --help
-          brew install --cask docker
+          brew install --verbose --require-sha --cask docker
         shell: bash
         
       - name: on macOS Install Docker
