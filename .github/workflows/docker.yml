@@ -42,9 +42,10 @@ jobs:
           #linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6
           #- linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/amd64/v4,linux/arm64,linux/riscv64,linux/ppc64le,linux/s390x,linux/386,linux/mips64le,linux/mips64,linux/arm/v7,linux/arm/v6
           #- "linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/ppc64le,linux/s390x,linux/riscv64"
-        host-os:
+        #host-os:
           #- ubuntu-18.04
-          - ubuntu-20.04
+          #- ubuntu-20.04
+        host-os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, ubuntu-latest, windows-2016, windows-2019, windows-2022, macos-10.15, macos-11, macos-12]
         release:
           - false
         tag-args:
@@ -63,7 +64,8 @@ jobs:
         #"BASE_IMAGE=localhost:5000/my-project/base"
         include:
           - platform-args: "linux/arm64,linux/arm/v7,linux/arm/v5"
-            host-os: windows-2022, windows-2019, ubuntu-18.04, ubuntu-22.04, macos-12, macos-11, macos-10.15
+            #host-os: [ubuntu-16.04, ubuntu-18.04, ubuntu-20.04, ubuntu-latest, windows-2016, windows-2019, windows-2022, macos-10.15, macos-11, macos-12]
+            host-os: ubuntu-20.04
             #host-os: ubuntu-latest
             tag-args: hostos-test-
             tag-latest: false
