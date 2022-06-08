@@ -209,12 +209,21 @@ jobs:
         run: |
           #echo "runner.os:      ${{ runner.os }}"
           set -x
-          brew --help
+          brew install
           brew install --verbose --require-sha --cask docker
+        shell: bash
+        
+      - name: echo runner.os AND docker version
+        continue-on-error: true
+        run: |
+          echo "runner.os:      ${{ runner.os }}"
+          echo "HOMEBREW_CACHE: $HOMEBREW_CACHE"
+          set -x
+          brew --cache
           docker version
           docker run --rm hello-world
         shell: bash
-        
+
       - name: on macOS Install Docker
         #if: matrix.release && matrix.os == 'ubuntu-latest'
         if: runner.os == 'NULLmacOS'
