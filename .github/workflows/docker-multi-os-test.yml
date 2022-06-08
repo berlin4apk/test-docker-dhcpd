@@ -188,6 +188,7 @@ jobs:
           set -x
           docker version
           docker run --rm hello-world
+        shell: bash
     
       - name: Checkout Repository
         uses: actions/checkout@v3.0.2
