@@ -260,7 +260,7 @@ jobs:
       - name: on macOS Install Docker
         #if: matrix.release && matrix.os == 'ubuntu-latest'
         if: runner.os == 'NULLmacOS'
-        uses: docker-practice/actions-setup-docker@1.0.10
+        uses: docker-practice/actions-setup-docker@1.0.11
         
       - name: echo runner.os AND docker version
         run: |
