@@ -178,7 +178,7 @@ jobs:
 #######################################################
     
       - name: Checkout Repository
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.3.0
 
       - name: Setup QEMU
         id: qemu
